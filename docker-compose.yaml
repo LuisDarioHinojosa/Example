@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  database:
+    container_name: app_db
+    image: mysql:5.7
+    env_file:
+      - ./env/mysql.env
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - ./mysql_mount:/var/lib/mysql
+
+  backend:
+    container_name: app_backend
+    build: ./backend
+    ports:
+      - '80:80'
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - database
+  
+  frontend:
+    container_name: app_frontend
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+      - database
