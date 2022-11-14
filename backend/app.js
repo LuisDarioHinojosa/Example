@@ -38,7 +38,7 @@ app.listen(port,() => console.log(`Server running on port ${port}`));
 
 // rutas
 app.get("/",(req,res) => {
-  res.send("Prueba BACKEND");
+  res.send("Prueba BACKEND ");
 });
 
 
